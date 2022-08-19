@@ -342,11 +342,16 @@ void Chip8::EmulateChip8Op()
 	break;
 	case 0x0D: 
 	{
-		uint16_t x = V[secondnib] % 64;
-		uint16_t y = V[thirdnib] % 32;
-		V[0xF] = 0;
-		uint16_t height = op[0] & 0x000F;
-		uint16_t pixel;
+		//uint16_t x = V[secondnib] % 64;
+		//uint16_t y = V[thirdnib] % 32;
+		//V[0xF] = 0;
+		//uint16_t height = op[0] & 0x000F;
+		//uint16_t pixel;
+
+		unsigned short x = V[((memory[PC] << 8 | memory[PC + 1]) & 0x0F00) >> 8];
+		unsigned short y = V[((memory[PC] << 8 | memory[PC + 1]) & 0x00F0) >> 4];
+		unsigned short height = (memory[PC] << 8 | memory[PC + 1]) & 0x000F;
+		unsigned short pixel;
 
 		////used graphics rendering from James Griffen	
 		for (int i = 0; i < height; ++i) //number of rows

@@ -39,7 +39,7 @@ int main(int argc, char** argv) {
 		return 0;
 	}
 
-	SDL_Window* window = SDL_CreateWindow("[PUT_ROM_TITLE_HERE]", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1024, 512, SDL_WINDOW_SHOWN);
+	SDL_Window* window = SDL_CreateWindow(argv[1], SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1024, 512, SDL_WINDOW_SHOWN);
 	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
 	SDL_RenderSetLogicalSize(renderer, 1024, 512);
 	if (renderer)
@@ -62,7 +62,7 @@ int main(int argc, char** argv) {
 	while (true)
 	{
 		chip8.EmulateChip8Op();
-		SDL_Event e;
+		/*SDL_Event e;
 
 		while (SDL_PollEvent(&e))
 		{
@@ -93,7 +93,7 @@ int main(int argc, char** argv) {
 					}
 				}
 			}
-		}
+		}*/
 
 		if (chip8.draw_flag)
 		{
@@ -109,10 +109,9 @@ int main(int argc, char** argv) {
 			SDL_RenderClear(renderer);
 			SDL_RenderCopy(renderer, texture, NULL, NULL);
 			SDL_RenderPresent(renderer);
-
 		}
 
-		std::this_thread::sleep_for(std::chrono::microseconds(120000));
+		std::this_thread::sleep_for(std::chrono::microseconds(1200));
 	}
 
 	return 0;
