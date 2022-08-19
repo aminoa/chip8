@@ -2,15 +2,8 @@
 #include "chip8.h"
 #undef main
 #include <iostream>
-
-////don't do this, this is just an example
-//SDL_Renderer* renderer;
-//SDL_Window* window;
-//bool isRunning;
-//bool fullscreen;
-//void handleEvents();
-//void update();
-//void render();
+#include <chrono>
+#include <thread>
 
 const uint8_t keymap[16] = {
 	SDLK_x,
@@ -40,16 +33,15 @@ int main(int argc, char** argv) {
 		return 1;
 	}
 
-
-
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
 	{
 		std::cout << "Error initializing SDL: %s\n" << SDL_GetError();
 		return 0;
 	}
 
-	SDL_Window* window = SDL_CreateWindow("[PUT_ROM_TITLE_HERE]", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 64, 32, 0);
+	SDL_Window* window = SDL_CreateWindow("[PUT_ROM_TITLE_HERE]", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1024, 512, SDL_WINDOW_SHOWN);
 	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
+	SDL_RenderSetLogicalSize(renderer, 1024, 512);
 	if (renderer)
 	{
 		SDL_SetRenderDrawColor(renderer, 121, 121, 121, 255);
@@ -102,18 +94,26 @@ int main(int argc, char** argv) {
 				}
 			}
 		}
+
+		if (chip8.draw_flag)
+		{
+			chip8.draw_flag = false;
+			
+			for (int i = 0; i < 2048; ++i)
+			{
+				uint8_t pixel = chip8.screen[i];
+				pixels[i] = (0x00FFFFFF * pixel) | 0xFF000000;
+			}
+
+			SDL_UpdateTexture(texture, NULL, pixels, 64 * sizeof(Uint32));
+			SDL_RenderClear(renderer);
+			SDL_RenderCopy(renderer, texture, NULL, NULL);
+			SDL_RenderPresent(renderer);
+
+		}
+
+		std::this_thread::sleep_for(std::chrono::microseconds(120000));
 	}
-
-	if (chip8.draw_flag)
-	{
-		chip8.draw_flag = false;
-	}
-
-	////frees memory associated with renderer and window
-	SDL_DestroyRenderer(renderer);
-	SDL_DestroyWindow(window);	//error here
-	SDL_Quit();
-
 
 	return 0;
 }

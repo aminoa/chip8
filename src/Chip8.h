@@ -9,7 +9,7 @@ public:
 	uint16_t I;
 	uint8_t SP;
 	uint16_t PC;
-
+		
 	uint8_t delay;
 	uint8_t sound;
 

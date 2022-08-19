@@ -74,8 +74,6 @@ void Disassemble8080Opcode(uint8_t* buffer, int pc)
     }
     printf("\n");
 
-
-
 }
 
 int main(int argc, char** argv)
