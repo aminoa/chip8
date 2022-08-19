@@ -7,5 +7,5 @@ Clone the repository and open it using Visual Studio 2022. The SDL library shoul
 # Acknowledgements
 
 - James Griffen's Chip-8 Emulator for SDL Rendering and Some Opcodes 
-- Cowgod Documentation
+- Cowgod's Documentation
 - Emulator101
